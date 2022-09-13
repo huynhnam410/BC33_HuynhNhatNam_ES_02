@@ -10,3 +10,67 @@ let dataGlasses = [
     { id: "G9", src: "./img/g9.jpg", virtualImg: "./img/v9.png", brand: "Coarch", name: "MIDNIGHT VIXEN REMIX", color: "Blue, Black", price: 120, description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit consequatur soluta ad aut laborum amet." }
 ];
 
+let renderGlasses = (Glasses) => {
+    let html = '';
+    for (let i = 0; i < Glasses.length; i++) {
+        let glass = Glasses[i];
+        html += `
+        <div class="glasses">
+        <div class="item">
+        <a href="./index.html?productid=${glass.id}">
+            <img src="${glass.src}" alt="product"/>
+            </a>
+        </div>
+        </div>
+        `
+    }
+    document.querySelector('#vglassesList').innerHTML = html;
+}
+
+
+let renderGlassesInfo = (GlassesInfo) => {
+    let virtual = '';
+    let html = '';
+    const urlParams = new URLSearchParams(window.location.search);
+    const glassID = urlParams.get('productid');
+    for (let i = 0; i < GlassesInfo.length; i++) {
+        let glass = GlassesInfo[i];
+        if (glass.id == glassID) {
+            html += `
+            <div class="name-brand-color">
+            <h1>${glass.name} - </h1>
+            <h1> - ${glass.brand}</h1>
+            <p>(${glass.color})</p>
+            </div>
+
+            <div class="price">
+            <span>${glass.price}$</span>
+            <p>Stocking</p>
+            </div>
+
+            <div class="desc">
+            <p>${glass.description}</p>
+            </div>
+            
+            `
+
+            virtual += `
+            <img src="${glass.virtualImg}" />
+            `
+
+            console.log(html)
+            document.querySelector('#glassesInfo').innerHTML = html;
+            document.querySelector('#avatar').innerHTML = virtual;
+            document.querySelector('#glassesInfo').style.display = 'block';
+
+        }
+    }
+}
+
+window.onload = function () {
+    renderGlasses(dataGlasses);
+    renderGlassesInfo(dataGlasses);
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get('productid');
+    console.log(myParam);
+}
